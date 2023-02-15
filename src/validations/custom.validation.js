@@ -15,7 +15,19 @@ const password = (value, helpers) => {
   return value;
 };
 
+const title = (value, helpers) => {
+  if (value.length < 5) {
+    return helpers.message('title must be at least 5 characters');
+  }
+  // check if alphabets, numbers and spaces only
+  if (!value.match(/^[a-zA-Z0-9 ]+$/)) {
+    return helpers.message('title must contain only alphabets, numbers and spaces');
+  }
+  return value;
+};
+
 module.exports = {
   objectId,
   password,
+  title,
 };

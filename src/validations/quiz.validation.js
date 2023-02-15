@@ -1,8 +1,9 @@
 const Joi = require('joi');
+const { title } = require('./custom.validation');
 
 const createQuiz = {
   body: Joi.object().keys({
-    title: Joi.string().required(),
+    title: Joi.string().required().custom(title),
     description: Joi.string().required(),
     questions: Joi.array().items(
       Joi.object().keys({
