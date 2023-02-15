@@ -18,7 +18,6 @@ const submitQuiz = {
   body: Joi.object().keys({
     answers: Joi.array().items(
       Joi.object().keys({
-        question: Joi.string().required(),
         answer: Joi.string().required(),
       })
     ),

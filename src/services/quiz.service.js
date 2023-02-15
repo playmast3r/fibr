@@ -40,11 +40,11 @@ const listQuizes = async (userId) => {
 
 /**
  * Get quiz results
- * @param {ObjectId} quizId
+ * @param {ObjectId} id
  * @returns {Promise<Quiz[]>}
  */
-const results = async (quizId) => {
-  return Quiz.findResults(quizId);
+const results = async (id) => {
+  return Quiz.findById(id).select('title scores');
 };
 
 /**
@@ -59,7 +59,7 @@ const submitQuiz = async (quizId, answers, name) => {
   if (!quiz) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Quiz not found');
   }
-  const score = quiz.score(answers);
+  const score = await quiz.calculateScore(answers);
   quiz.scores.push({ name, score });
   await quiz.save();
   return { score };

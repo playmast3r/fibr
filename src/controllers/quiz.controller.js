@@ -33,14 +33,18 @@ const listQuizes = catchAsync(async (req, res) => {
 
 const results = catchAsync(async (req, res) => {
   const { quizId } = req.params;
-  const scores = await quizService.results(quizId);
-  res.send(scores);
+  const result = await quizService.results(quizId);
+
+  // sort scores by score - used sort in code because aggregate sort is heavy on db
+  const { scores } = result;
+  scores.sort((a, b) => b.score - a.score);
+  result.scores = scores;
+  res.send(result);
 });
 
 const submitQuiz = catchAsync(async (req, res) => {
   const { quizId } = req.params;
-  const { answers } = req.body;
-  const { name } = req.body;
+  const { answers, name } = req.body;
   const result = await quizService.submitQuiz(quizId, answers, name);
   res.send(result);
 });
